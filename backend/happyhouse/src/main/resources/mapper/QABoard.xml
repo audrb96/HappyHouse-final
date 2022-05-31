@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.repo.QABoardRepo">
+
+	<!-- Q&A 전체 조회 -->
+	<select id="selectQABoard" resultType="qaboard">
+		select boardNum, ID, title, content, createTime, recnt
+		from qaboard 
+		order by boardNum desc
+	</select>
+	
+	<!-- Q&A id로 상세 조회 -->
+	<select id="selectQABoardById" resultType="qaboard" parameterType="string">
+		select boardNum, ID, title, content, createTime, recnt
+		from qaboard 
+		where ID = #{id}
+		order by boardNum desc
+	</select>
+	
+	
+	<!-- Q&A 글 번호로 상세 조회 -->
+	<select id="selectQABoardByNo" parameterType="int" resultType="qaboard">
+		select boardNum, ID, title, content, createTime, recnt
+		from qaboard 
+		where boardNum = #{boardNum}
+	</select>
+	
+	<!-- Q&A 글 번호로 상세 조회 -->
+	<select id="selectQABoardByIdNo" parameterType="map" resultType="qaboard">
+		select boardNum, ID, title, content, createTime, recnt
+		from qaboard 
+		where boardNum = #{boardNum}
+	</select>
+
+	
+	<!-- Q&A 등록 -->
+	<insert id="insertQABoard" parameterType="qaboard">
+		insert into qaboard(
+			title, ID, content
+		) values (
+			#{title}, #{ID}, #{content}
+		)
+	</insert>
+	
+	<!-- Q&A 수정 -->
+	<update id="updateQABoard" parameterType="qaboard">
+		update qaboard 
+		   set title = #{title}, 
+		   	   ID = #{ID}, 
+		   	   content = #{content}
+		 where boardNum = #{boardNum}
+	</update>
+
+	<!-- Q&A 삭제 -->
+	<delete id="deleteQABoard" parameterType="int">
+		delete 
+		from qaboard 
+		where boardNum = #{boardNum}
+	</delete>
+
+
+</mapper>

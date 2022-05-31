@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.repo.CommentRepo">
+
+	<!-- 게시글 전체 조회 -->
+	<select id="selectComment" resultType="comment">
+		select commentNum, articleNo, userid, content, regtime
+		from comment 
+		order by commentNum desc
+	</select>
+	
+	<!-- 게시글 상세 조회 -->
+	<select id="selectCommentByNo" resultType="comment">
+		select commentNum, articleNo, userid, content, regtime
+		from comment 
+		where articleNo = #{articleNo}
+	</select>
+
+	<!-- 게시글 등록 -->
+	<insert id="insertComment" parameterType="comment">
+		insert into comment(
+			articleNo, userId, content
+		) values (
+			#{articleNo}, #{userid}, #{content}
+		)
+	</insert>
+	
+	<!-- 게시글 수정 -->
+	<update id="updateComment" parameterType="comment">
+		update comment 
+		   set articleNo = #{articleNo},
+		   	   userId = #{userid},
+		   	   content = #{content}
+		 where commentNum = #{commentNum}
+	</update>
+
+	<!-- 게시글 삭제 -->
+	<delete id="deleteComment" parameterType="int">
+		delete 
+		from comment 
+		where commentNum = #{commentNum}
+	</delete>
+	
+</mapper>

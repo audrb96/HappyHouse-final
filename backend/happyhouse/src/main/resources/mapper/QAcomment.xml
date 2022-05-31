@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.repo.QACommentRepo">
+
+	<!-- 게시글 전체 조회 -->
+	<select id="selectQAComment" resultType="qacomment">
+		select qacommentNum, boardNum, ID, content, regtime
+		from qacomment 
+		order by qacommentNum desc
+	</select>
+	
+	<!-- 게시글 상세 조회 -->
+	<select id="selectQACommentByNo" resultType="qacomment">
+		select qacommentNum, boardNum, ID, content, regtime
+		from qacomment 
+		where boardNum = #{boardNum}
+	</select>
+
+	<!-- 게시글 등록 -->
+	<insert id="insertQAComment" parameterType="qacomment">
+		insert into qacomment(
+			boardNum, ID, content
+		) values (
+			#{boardNum}, #{ID}, #{content}
+		)
+	</insert>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="deleteQAComment" parameterType="int">
+		delete 
+		from qacomment 
+		where qacommentNum = #{qacommentNum}
+	</delete>
+	
+	<!-- Q&A 답변 글 업데이트 -->
+	<update id="updateQAComment" parameterType="int">
+		update qaboard 
+		set recnt = (select count(*) from qacomment where boardNum = #{boardNum} and ID = "hadmin") 
+		where boardNum = #{boardNum};
+		
+	</update>
+	
+</mapper>

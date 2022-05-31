@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.repo.NoticeRepo">
+
+	<!-- 게시글 등록-->
+    <insert id="registNotice" parameterType="Notice">
+        insert into notice(title,userId,views,text) values (#{title}, #{userId},#{views}, #{text});
+    </insert>
+
+	<!-- 게시글 상세 조회 -->
+    <select id="getNotice" parameterType="int" resultType="Notice">
+        select * from notice where articleNo = #{articleNo};
+    </select>
+
+	<!-- 게시글 전체 조회 -->
+    <select id="listNotice" resultType="Notice">
+        select * from notice
+        order by articleNo desc;
+    </select>
+
+	<!-- 게시글 수정 -->
+    <update id="updateNotice" parameterType="Notice">
+        update notice
+        set title = #{title}, text = #{text},userId = #{userId}, views = #{views}
+        where articleNo = #{articleNo}
+    </update>
+
+	<!-- 게시글 삭제 -->
+    <delete id="deleteNotice" parameterType="int">
+        delete from notice
+        where articleNo = #{articleNo}
+    </delete>
+
+	<!-- 게시글 조회수 증가 -->
+	<update id="updateHit" parameterType="int">
+		update notice
+		set views = views + 1
+		where articleNo = #{articleNo}
+	</update>
+	
+	<!-- 게시글 검색 -->
+	<select id="searchNotice" parameterType="map" resultType="notice">
+		select * from notice
+		where ${key} like concat('%', #{word}, '%')
+	</select>
+</mapper>

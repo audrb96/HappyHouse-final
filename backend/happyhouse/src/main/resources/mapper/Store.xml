@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.repo.StoreRepo">
+   <select id="selectOne" parameterType="string" resultType="Store">
+       select * from store where storeNo = #{storeNo};
+   </select>
+
+    <select id="selectByDong" parameterType="string" resultType="Store">
+    select * from store where dongcode like concat(#{dongcode},'%');
+    </select>
+
+    <select id="selectByDistance" parameterType="Map" resultType="Store">
+    select s.storeNo, s.storeName, s.storeLargeKind, s.storeSmKind, s.dongCode,s.lng,s.lat,s.doroadadd,(6371*acos(cos(radians(#{lat}))*cos(radians(s.lat))*cos(radians(s.lng) -radians(#{lng}))+sin(radians(#{lat}))*sin(radians(s.lat)))) distance
+    from store s
+    order By distance
+    limit 100;
+    </select>
+</mapper>
